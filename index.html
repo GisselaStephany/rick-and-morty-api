@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Title</title>
+    <title>Rick and Morty API</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -15,14 +15,13 @@
 <body class="bg-dark">
     <div id="app" class="container my-5">
 
-        <h3 class="text-center text-warning">Rick and Morty API</h3>
+        <h2 class="text-center text-warning">Rick and Morty API</h2>
 
         <div class="row my-3">
             <div class="col-md-4">
                 <button v-if="informacion.prev != null" @click="anterior" class="btn btn-warning">Anterior</button>
             </div>
             <div class="col-md-4">
-                <!-- <button @click="obtenerPersonajes" class="btn btn-primary">Cargar</button> -->
             </div>
             <div class="col-md-4 text-end">
                 <button v-if="informacion.next != null" @click="siguiente" class="btn btn-warning">Siguiente</button>
@@ -31,13 +30,13 @@
 
 
         <div class="row justify-content-center">
-            <div v-for="item in personajes" class="col-md-3" @click="seleccionado = item" data-bs-toggle="modal"
-                data-bs-target="#modalId">
+            <div v-for="item in personajes" class="col-md-3 my-3">
                 <div class="card m-1">
                     <img :src="item.image" class="card-img-top" alt="Img">
                     <div class="card-body">
                         <h5 class="card-title">{{ item.name }}</h5>
-                        <p class="card-text">Descripción</p>
+                        <p class="card-text text-end" style="cursor: pointer;" @click="seleccionado = item"
+                            data-bs-toggle="modal" data-bs-target="#modalId">Ver más...</p>
                     </div>
                 </div>
             </div>
@@ -55,59 +54,63 @@
         </div>
 
         <div class="modal" tabindex="-1" id="modalId">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Informacion</h5>
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content bg-dark">
+                    <div class="modal-header bg-warning">
+                        <h5 class="modal-title fs-4">Información</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-4">
+                        <div class="row align-items-center">
+                            <div class="col-md-6 text-center">
                                 <img :src="seleccionado.image" class="img-fluid rounded-circle" alt="Img">
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-6 fs-5">
 
-                                <span class="badge text-bg-primary text-wrap">Nombre:</span>
-                                <span> {{ seleccionado.name }}</span>
+                                <div class="row">
+                                    <span class="col-4 badge text-bg-warning text-wrap">Nombre:</span>
+                                    <span class="col-8 text-white"> {{ seleccionado.name }}</span>
+                                </div>
                                 <br>
+                                <div class="row">
+                                    <span class="col-4 badge text-bg-warning text-wrap">Estado: </span>
+                                    <span v-if="seleccionado.status == 'Alive'" class="col-8 text-success"> Alive
+                                    </span>
+                                    <span v-else-if="seleccionado.status == 'Dead'" class="col-8 text-danger"> Dead
+                                    </span>
+                                    <span v-else class="col-8 text-warning"> Unknown</span>
+                                </div>
                                 <br>
-
-                                <span class="badge text-bg-primary text-wrap">Estado: </span>
-                                <span v-if="seleccionado.status == 'Alive'" class="text-success"> Alive </span>
-                                <span v-else-if="seleccionado.status == 'Dead'" class="text-danger"> Dead </span>
-                                <span v-else class="text-warning"> Unknown</span>
+                                <div class="row">
+                                    <span class="col-4 badge text-bg-warning text-wrap">Género: </span>
+                                    <span v-if="seleccionado.gender == 'Male'" class="col-8 text-primary"> Male </span>
+                                    <span v-else-if="seleccionado.gender == 'Female'" class="col-8 text-danger"> Female
+                                    </span>
+                                    <span v-else class="col-8 text-secondary"> Unknown </span>
+                                </div>
                                 <br>
+                                <div class="row">
+                                    <span class="col-4 badge text-bg-warning text-wrap">Especie: </span>
+                                    <span class="col-8 text-light"> {{ seleccionado.species }}</span>
+                                </div>
                                 <br>
-
-                                <span class="badge text-bg-primary text-wrap">Género: </span>
-                                <span v-if="seleccionado.gender == 'Male'"> Male </span>
-                                <span v-else-if="seleccionado.gender == 'Female'"> Female </span>
-                                <span v-else class="text-secondary"> Unknown </span>
+                                <div class="row">
+                                    <span class="col-4 badge text-bg-warning text-wrap">Origen: </span>
+                                    <span class="col-8 text-light"> {{ (seleccionado.origin) ? seleccionado.origin.name
+                                        : '' }}</span>
+                                </div>
                                 <br>
+                                <div class="row">
+                                    <span class="col-4 badge text-bg-warning text-wrap">Locación:</span>
+                                    <span class="col-8 text-light"> {{ (seleccionado.location) ?
+                                        seleccionado.location.name : '' }}</span>
+                                </div>
                                 <br>
-
-                                <span class="badge text-bg-primary text-wrap">Especie: </span>
-                                <span> {{ seleccionado.species }}</span>
-                                <br>
-                                <br>
-
-                                <span class="badge text-bg-primary text-wrap">Origen: </span>
-                                <span> {{ (seleccionado.origin) ? seleccionado.origin.name : '' }}</span>
-                                <br>
-                                <br>
-
-                                <span class="badge text-bg-primary text-wrap">Locacion:</span>
-                                <span> {{ (seleccionado.location) ? seleccionado.location.name : '' }}</span>
-                                <br>
-
                             </div>
                         </div>
-
-
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-outline-warning" data-bs-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
             </div>
